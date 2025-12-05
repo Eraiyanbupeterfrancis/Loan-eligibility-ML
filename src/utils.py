@@ -3,27 +3,37 @@ import math
 from collections import Counter
 
 # -----------------------------------------------------------
-# Load dataset
+# Load dataset safely
 # -----------------------------------------------------------
 def load_data(path):
-    return pd.read_csv(path)
+    df = pd.read_csv(path)
+    df = df.applymap(lambda x: str(x).strip())    # clean spaces
+    return df
 
 # -----------------------------------------------------------
 # Entropy calculation
 # -----------------------------------------------------------
 def entropy(labels):
     total = len(labels)
+    if total == 0:
+        return 0
+
     counts = Counter(labels)
 
-    return -sum((count/total) * math.log2(count/total) for count in counts.values())
+    ent = 0
+    for count in counts.values():
+        p = count / total
+        ent += -p * math.log2(p)
+
+    return ent
 
 # -----------------------------------------------------------
 # Information Gain
 # -----------------------------------------------------------
 def information_gain(df, attribute, target):
     total_entropy = entropy(df[target])
-
     values = df[attribute].unique()
+
     weighted_entropy = 0
 
     for val in values:
