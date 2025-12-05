@@ -11,5 +11,5 @@ def find_s(datapath):
                 hypothesis[i] = '?'
     return hypothesis
 if __name__ == "__main__":
-    final_hypothesis = find_s('Loan-eligibility-ML\data\loan_dataset_600.csv')
+    final_hypothesis = find_s('Loan-eligibility-ML\data\cleaned_loan_data.csv')
     print("Final Hypothesis: ", final_hypothesis)
